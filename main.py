@@ -24,33 +24,32 @@ def check_folder(folder_path):
     if not folder_path.exists():
         Path.mkdir(folder_path, parents=True)
 
-def create_file(project_name, interpreter_path):
-    parent_path = Path(project_name)
+def create_file(dictionary, interpreter_path):
     # chanegeLoag.txt
-    log_file = parent_path.joinpath('changeLog.txt')
+    log_file = dictionary.joinpath('changeLog.txt')
     sentence = datetime.datetime.now().strftime("%Y.%m.%d")
     sentence += '\n開啟專案'
     write_into_file(log_file, sentence)
 
     # .gitignore
     txt = ".vscode\n__pycache__"
-    ignore_file = parent_path.joinpath('.ignore')
+    ignore_file = dictionary.joinpath('.ignore')
     write_into_file(ignore_file, txt)
 
     # TODO
-    write_into_file(parent_path.joinpath('TODO'), '')
+    write_into_file(dictionary.joinpath('TODO'), '')
 
     # main.py
-    write_into_file(parent_path.joinpath('main.py'), '')
+    write_into_file(dictionary.joinpath('main.py'), '\n\nif __name__ == \'__main__\':\n\tpass')
 
     # test/test.py
-    write_into_file(parent_path.joinpath('test', 'test.py'), '')
+    write_into_file(dictionary.joinpath('test', 'test.py'), '')
 
     # .vscode/settings.json
     dc = {
         "python.pythonPath": interpreter_path
     }
-    write_into_file(parent_path.joinpath('.vscode', 'settings.json'), dc)
+    write_into_file(dictionary.joinpath('.vscode', 'settings.json'), dc)
     
     # .vscode/launch.json
     dc = {
@@ -65,7 +64,7 @@ def create_file(project_name, interpreter_path):
         }
     ]
     }
-    write_into_file(parent_path.joinpath('.vscode', 'launch.json'), dc)
+    write_into_file(dictionary.joinpath('.vscode', 'launch.json'), dc)
 
 def init_git(project_name):
     os.chdir(project_name)
@@ -91,9 +90,11 @@ if __name__ == '__main__':
     init git
     """
     project_name =  get_project_name()
+    dictionary = Path().cwd().parent.joinpath(project_name)
+
     interpreter_path = set_interpreter_path()
 
     # create_folder(project_name)
-    create_file(project_name, interpreter_path)
+    create_file(dictionary, interpreter_path)
     
-    init_git(project_name)
+    init_git(dictionary)
