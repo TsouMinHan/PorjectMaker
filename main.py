@@ -1,14 +1,21 @@
-from pathlib import Path
 import datetime
 import json
-import subprocess, os
+import os
+import subprocess
+import time
+from pathlib import Path
+
 
 def get_project_name():
     return input('Insert Your Project Name: ')
 
-def set_interpreter_path():
-    res = eval(input('Insert Project Interpreter\'s path(Number = default): '))
-    return res if isinstance(res, str) else "D:\\python\\python.exe"
+def create_venv_or_not() -> bool:
+    while True:
+        response = input('Do you need to create new venv? (y/n): ')
+        if response == 'y':
+            return True
+        elif response == 'n':
+            return False
 
 def write_into_file(file, txt):
     check_folder(file.parent)
@@ -24,7 +31,7 @@ def check_folder(folder_path):
     if not folder_path.exists():
         Path.mkdir(folder_path, parents=True)
 
-def create_file(dictionary, interpreter_path):
+def create_file(dictionary, res):
     # chanegeLoag.txt
     log_file = dictionary.joinpath('changeLog.txt')
     sentence = datetime.datetime.now().strftime("%Y.%m.%d")
@@ -32,8 +39,8 @@ def create_file(dictionary, interpreter_path):
     write_into_file(log_file, sentence)
 
     # .gitignore
-    txt = ".vscode\n__pycache__"
-    ignore_file = dictionary.joinpath('.ignore')
+    txt = ".vscode\n__pycache__\nvenv"
+    ignore_file = dictionary.joinpath('.gitignore')
     write_into_file(ignore_file, txt)
 
     # TODO
@@ -43,9 +50,13 @@ def create_file(dictionary, interpreter_path):
     write_into_file(dictionary.joinpath('main.py'), '\n\nif __name__ == \'__main__\':\n\tpass')
 
     # test/test.py
-    write_into_file(dictionary.joinpath('test', 'test.py'), '')
+    write_into_file(dictionary.joinpath('test', 'test.py'), '\n\nif __name__ == \'__main__\':\n\tpass')
 
     # .vscode/settings.json
+    if res:
+        interpreter_path = str(dictionary.joinpath(r'venv\Scripts\python.exe'))
+    else:
+        interpreter_path = r'D:\python\python.exe'
     dc = {
         "python.pythonPath": interpreter_path
     }
@@ -66,16 +77,24 @@ def create_file(dictionary, interpreter_path):
     }
     write_into_file(dictionary.joinpath('.vscode', 'launch.json'), dc)
 
-def init_git(project_name):
-    os.chdir(project_name)
-    command = "git init"
+def go_to_directory(directory):
+    os.chdir(directory)
+
+def create_venv():
+    subprocess.call(['py', '-m', 'venv', 'venv'])
+    time.sleep(2)
+    subprocess.call([r'venv\Scripts\activate.bat'])
+    time.sleep(0.3)
+    subprocess.call(['python', '-m', 'pip', 'install', '--upgrade', 'pip'])
+    time.sleep(1)
+    subprocess.call([r'venv\Scripts\deactivate.bat'])
+
+def init_git():
     subprocess.call(['git', 'init'])
 
-    command = "git add ."
     subprocess.call(['git', 'add', '.'])
 
-    command = 'git commit -m "專案開始"'
-    subprocess.call(['git', 'commit', '-m', '"專案開始"'])
+    subprocess.call(['git', 'commit', '-m', '"開始專案"'])
 
 if __name__ == '__main__':
     """
@@ -92,9 +111,12 @@ if __name__ == '__main__':
     project_name =  get_project_name()
     dictionary = Path().cwd().parent.joinpath(project_name)
 
-    interpreter_path = set_interpreter_path()
+    res = create_venv_or_not()
+    create_file(dictionary, res)
 
-    # create_folder(project_name)
-    create_file(dictionary, interpreter_path)
+    go_to_directory(dictionary)
+
+    if res:
+        create_venv()
     
-    init_git(dictionary)
+    init_git()

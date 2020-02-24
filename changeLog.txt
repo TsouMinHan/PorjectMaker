@@ -1,3 +1,7 @@
+2020.02.24
+init git bug fixed
+add create venv function
+
 2020.02.20
 修改檔案產生路徑(在此檔案的上一層)
 新增bat檔案

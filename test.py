@@ -1,5 +1,6 @@
 from pathlib import Path
+import os
 
-p = Path.cwd().parent.joinpath('asd')
+p = os.getcwd()
 print(p)
 print()
