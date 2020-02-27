@@ -1,0 +1,47 @@
+create_file:  
+  - name: chanegeLoag.txt
+    content: |
+      get_today
+      專案開始
+  - name: .gitignore
+    content: |
+      .vscode
+      __pycache__
+      venv
+  - name: TODO
+    content: ''
+  - name: main.py
+    content: |
+    
+    
+      if __name__ == '__main__':
+          pass
+  - name: test/test.py
+    content: |
+      
+
+      if __name__ == '__main__':
+          pass
+          
+  - name: .vscode/settings.json
+    content: 
+      {
+        "python.pythonPath": "D:\\python\\python.exe"
+      }
+
+  - name: .vscode/launch.json
+    content: 
+      {
+        "version": "0.2.0",
+        "configurations": [
+          {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+            }
+          ]
+        }
+git: 1
+directory: D:\pyCharm

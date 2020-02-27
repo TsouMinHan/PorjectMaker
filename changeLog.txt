@@ -1,3 +1,8 @@
+2020.02.27
+remove old version
+new version
+ - customize project
+
 2020.02.24
 init git bug fixed
 add create venv function
