@@ -1,3 +1,19 @@
+# ProjectMaker
+
+You can write all the files you need in the `.yaml` file, and put it in the `mode` folder.
+Create project folder with this script.
+
+## .yaml exaple
+`create_file`: create the files
+`name`: file name
+`content`: The content of the file. It can be a string or json.
+(if you need current date, write the code `get_today`)
+(if you do not need anything, write '')
+`git`: initialize the git repository, write 1
+`directory`: your project parent directory
+`cmd`: bash code.
+
+```yaml
 create_file:  
   - name: chanegeLoag.txt
     content: |
@@ -54,3 +70,4 @@ create_file:
 git: 1
 directory: D:\pyCharm
 cmd: py -m venv venv
+```

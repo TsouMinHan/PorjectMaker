@@ -47,11 +47,11 @@ def write_into_file(file, txt):
         with open(file, 'w', encoding='utf8') as f:        
             f.write(txt)
 
-def create_venv():
+def run_cmd(code):
     try:
-        subprocess.call(['py', '-m', 'venv', 'venv'])
+        subprocess.call(code)
     except:
-        print('create_venv has some prombles.')
+        print('run_cmd has some prombles.')
 
 def init_git():
     subprocess.call(['git', 'init'])
@@ -74,9 +74,6 @@ if __name__ == '__main__':
         directory = data.get('directory', Path.cwd())
         go_to_directory(directory, project_name)
 
-        if data.get('venv', ''):
-            create_venv()
-
         for k in data.get('create_file', []):
             content = k['content']
             if 'get_today' in content:
@@ -86,5 +83,11 @@ if __name__ == '__main__':
             except Exception as e:
                 print(e)
 
+        if data.get('cmd', ''):
+            code_line = data.get('cmd', '').split('\n')
+
+            for code in code_line:
+                run_cmd(code.split())
+                
         if data.get('git', '') and data['git'] == 1:
             init_git()
