@@ -4,21 +4,21 @@ You can write all the files you need in the `.yaml` file, and put it in the `mod
 Create project folder with this script.
 
 ## .yaml exaple
-`create_file`: create the files
+- `create_file`: create the files
 
-`name`: file name
+- `name`: file name
 
-`content`: The content of the file. It can be a string or json.
+- `content`: The content of the file. It can be a string or json.
 
 (if you need current date, write the code `get_today`)
 
 (if you do not need anything, write '')
 
-`git`: initialize the git repository, write 1
+- `git`: initialize the git repository, write 1
 
-`directory`: your project parent directory
+- `directory`: your project parent directory
 
-`cmd`: bash code.
+- `cmd`: bash code.
 
 ```yaml
 create_file:  
