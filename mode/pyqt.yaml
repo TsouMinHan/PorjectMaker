@@ -1,0 +1,93 @@
+create_file:  
+  - name: chanegeLoag.txt
+    content: |
+      get_today
+      start project
+  - name: .gitignore
+    content: |
+      .vscode
+      __pycache__
+      venv
+      doc
+  - name: TODO
+    content: ''
+  - name: main.py
+    content: |
+      from app.controller import Controller
+      import sys
+
+      if __name__ == '__main__':
+          c = Controller()
+          sys.exit(c.run())
+
+  - name: test/test.py
+    content: |
+      
+
+      if __name__ == '__main__':
+          pass
+          
+  - name: .vscode/settings.json
+    content: 
+      {
+        "python.pythonPath": "D:\\python\\python.exe"
+      }
+
+  - name: .vscode/launch.json
+    content: 
+      {
+        "version": "0.2.0",
+        "configurations": [
+          {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+            }
+          ]
+        }
+  - name: app\controller\__init__.py
+    content: from .controller import Controller
+  - name: app\controller\controller.py
+    content: |
+      from PyQt5 import QtWidgets
+      import sys
+
+      from app.view import View
+
+      class Controller:
+          def __init__(self):
+              self._app = QtWidgets.QApplication(sys.argv)
+              # self._model = Model()
+              self._view = View()
+
+      if __name__ == '__main__':
+          pass
+          
+  - name: app\model\__init__.py
+    content: ''
+  - name: app\model\model.py
+    content: |
+      
+
+      if __name__ == '__main__':
+          pass
+  - name: app\view\view.py
+    content: |
+      from PyQt5.QtWidgets import QApplication, QmainWindow
+      from PyQt5.QtGui import QIcon
+      from PyQt5.QtWidgets import QMessageBox
+
+      from .ui import Ui_MainWindow
+
+      class View(QMainWindow, Ui_MainWindow):
+          def __init(self, parent=None):
+              super(View, self).__init__(parent)
+              self.setupUi(self)
+  - name: app\view\__init__.py
+    content: from .view import View
+  - name: app\view\ui\__init__.py
+    content: from .main import Ui_MainWindow
+git: 1
+directory: D:\pyCharm
