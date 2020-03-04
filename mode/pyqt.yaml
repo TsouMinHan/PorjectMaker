@@ -61,7 +61,11 @@ create_file:
               self._app = QtWidgets.QApplication(sys.argv)
               # self._model = Model()
               self._view = View()
-
+          
+          def run(self):
+              self._view.show()
+              return self._app.exec_()
+              
       if __name__ == '__main__':
           pass
           
@@ -75,7 +79,7 @@ create_file:
           pass
   - name: app\view\view.py
     content: |
-      from PyQt5.QtWidgets import QApplication, QmainWindow
+      from PyQt5.QtWidgets import QApplication, QMainWindow
       from PyQt5.QtGui import QIcon
       from PyQt5.QtWidgets import QMessageBox
 
