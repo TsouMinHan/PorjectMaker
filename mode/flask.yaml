@@ -12,23 +12,21 @@ create_file:
     content: ''
   - name: app.py
     content: |
-    
+      from app import app
     
       if __name__ == '__main__':
           pass
-  - name: test/test.py
+  - name: test.py
     content: |
       
 
       if __name__ == '__main__':
-          pass
-          
+          pass   
   - name: .vscode/settings.json
     content: 
       {
-        "python.pythonPath": "D:\\python\\python.exe"
+        "python.pythonPath": "\\python.exe"
       }
-
   - name: .vscode/launch.json
     content: 
       {
@@ -43,13 +41,13 @@ create_file:
             }
           ]
         }
-  - name: static/js/index.js
+  - name: app/static/js/index.js
     content: ''
-  - name: static/css/index.css
+  - name: app/static/css/index.css
     content: ''
-  - name: main/__init__.py
+  - name: app/__init__.py
     content: ''
-  - name: templates/index.html
+  - name: app/templates/index.html
     content: ''
 git: 1
 directory: D:\pyCharm
