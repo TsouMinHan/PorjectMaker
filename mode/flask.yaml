@@ -49,6 +49,11 @@ create_file:
     content: ''
   - name: app/templates/index.html
     content: ''
+  - name: config.py
+    content: |
+    
+      class Config(object):
+        pass
 git: 1
 directory: D:\pyCharm
 cmd: py -m venv venv
