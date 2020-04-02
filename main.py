@@ -67,7 +67,7 @@ if __name__ == '__main__':
 
     if file:        
         with open(file, "r", encoding='utf8') as stream:
-            data = yaml.load(stream)
+            data = yaml.load(stream, Loader=yaml.FullLoader)
 
         project_name =  get_project_name()
         
