@@ -54,6 +54,8 @@ create_file:
     
       class Config(object):
         pass
+  - name: requirements.txt
+    content: ''
 git: 1
 directory: D:\pyCharm
 cmd: py -m venv venv

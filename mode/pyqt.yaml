@@ -93,5 +93,7 @@ create_file:
     content: from .view import View
   - name: app\view\ui\__init__.py
     content: from .main import Ui_MainWindow
+  - name: requirements.txt
+    content: ''
 git: 1
 directory: D:\pyCharm

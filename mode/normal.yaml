@@ -43,5 +43,7 @@ create_file:
             }
           ]
         }
+  - name: requirements.txt
+    content: ''
 git: 1
 directory: D:\pyCharm
