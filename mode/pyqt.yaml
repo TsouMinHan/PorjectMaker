@@ -20,7 +20,7 @@ create_file:
           c = Controller()
           sys.exit(c.run())
 
-  - name: test/test.py
+  - name: test.py
     content: |
       
 
