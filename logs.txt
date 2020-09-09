@@ -1,3 +1,7 @@
+2020.09.09
+fixed:
+ - incorrect name of logs.txt.
+
 2020.04.02
 Disable yaml.load Warning
 

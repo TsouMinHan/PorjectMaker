@@ -1,5 +1,5 @@
 create_file:  
-  - name: chanegeLoag.txt
+  - name: logs.txt
     content: |
       get_today
       專案開始
@@ -10,7 +10,7 @@ create_file:
       venv
   - name: TODO
     content: ''
-  - name: app.py
+  - name: main.py
     content: |
       from app import app
     
@@ -57,5 +57,5 @@ create_file:
   - name: requirements.txt
     content: ''
 git: 1
-directory: D:\pyCharm
+directory: C:\Users\Tsou\Desktop\program\python
 cmd: py -m venv venv
