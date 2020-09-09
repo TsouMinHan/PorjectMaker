@@ -2,7 +2,7 @@ create_file:
   - name: logs.txt
     content: |
       get_today
-      start project
+      start project.
   - name: .gitignore
     content: |
       .vscode

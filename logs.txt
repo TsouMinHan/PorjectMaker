@@ -2,6 +2,9 @@
 fixed:
  - incorrect name of logs.txt.
 
+changed:
+ - change "專案開始" to "start project" in all .yaml file.
+
 2020.04.02
 Disable yaml.load Warning
 
