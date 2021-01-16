@@ -1,5 +1,3 @@
-ls = 'asdasd  asdasd   asdasdasd asdasd\nasdasd asdasda asdasd'
+from new_main import get_project_options
 
-for i in ls.split('\n'):
-    print(i.split())
-print()
+get_project_options()

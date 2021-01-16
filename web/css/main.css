@@ -1,0 +1,9 @@
+.keep_distance_up {
+    margin-top: 3%;
+}
+
+.in_center {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%
+}
