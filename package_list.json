@@ -1,0 +1,34 @@
+{
+    "0": {
+        "name": "create venv",
+        "command": [
+            "python -m venv venv"
+        ],
+        "targets": [
+            "Python"
+        ]
+    },
+    "1": {
+        "name": "freeze requirements",
+        "command": [
+            "pip freeze > requirements.txt"
+        ],
+        "targets": [
+            "Python"
+        ]
+    },
+    "2": {
+        "name": "install flask",
+        "command": [
+            "pip install flask"
+        ],
+        "targets": [
+            "flask"
+        ]
+    },
+    "3": {
+        "name": "install requests, bs4",
+        "command": "pip install flask requests, bs4",
+        "targets": "Python"
+    }
+}

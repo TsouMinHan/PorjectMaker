@@ -19,30 +19,31 @@
 
 <body>
     <div id="app" class="container keep_distance_up">
-        <input type="text" class="form-control" placeholder="project name" v-model="projectName">
+        <button type="button" class="btn btn-secondary" @click="showWindow('package_list')">package list</button>
 
-        <select class="form-control keep_distance_up" v-model="projectLanguage">
-            <option v-for="(option) in projectOptions" v-bind:value="option.language">
+        <input type="text" class="form-control keep_distance_up" placeholder="project name" v-model="projectName">
+
+        <select class="form-control keep_distance_up" v-model="projectId">
+            <option v-for="(option, optionIndex) in projectOptions" v-bind:value="optionIndex">
                 {{ option.language }} - {{ option.name }}
             </option>
         </select>
 
         <div class="in_center keep_distance_up">
-            <div class="form-check" v-for="(item) in projectPackage">
-                <div v-if="item.targets.includes(projectLanguage)">
-                    <input class="form-check-input" type="checkbox" value="" v-bind:id="'Check' + item.name">
+            <div class="form-check" v-for="(item, itemIndex) in projectPackage">
+                <div v-if="projectId != null && item.targets.includes(projectOptions[projectId].language) || item.targets.includes(projectOptions[projectId].name)">
+                    <input class="form-check-input" type="checkbox" v-bind:value="itemIndex" v-bind:id="'Check' + item.name" v-model="projrctSelectedPackageIndex">
                     <label class="form-check-label" v-bind:for="'Check' + item.name">
                         {{item.name}}
                     </label>
                 </div>
             </div>
 
-
         </div>
         <div class="keep_distance_up">
-            <button type="button" class="btn btn-dark">Dark</button>
-
+            <button type="button" class="btn btn-dark" @click="createProject(projectName, projectId)">Create</button>
         </div>
+        <font color="blue">{{msg}}</font>
 
     </div>
 

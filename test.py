@@ -1,3 +1,5 @@
-from new_main import get_project_options
+from new_main import create_project
+import json
 
-get_project_options()
+
+create_project()    
