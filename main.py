@@ -1,93 +1,106 @@
-import yaml
-import json
-from datetime import datetime
 from pathlib import Path
-import subprocess
-import time 
+import eel
+import shutil
+import json
 import os
+from typing import Dict, List
 
-def choose_file():
-    txt = 'Please choose one file which you would like to create?\n'
-    file_ls = []
-    for i, path in enumerate(sorted(Path('mode').rglob('*.yaml'))):
-        txt += f'({i+1}) {path.name}\n'
-        file_ls.append(path.name)
+eel.init("web")
+root_directory = Path.cwd()
+package_path = Path(root_directory, "package_list.json")
 
+@eel.expose
+def modify_package_list(id: str, obj):
+    data = get_project_package()
+    data[id] = obj
+    save_to_json(package_path, data)
+
+@eel.expose
+def delete_from_package_list(id: str):
+    data = get_project_package()
+    del data[id]
+    save_to_json(package_path, data)
+
+def save_to_json(path, data):
+    with open(path, "w", encoding="utf-8") as json_file:
+        json.dump(data, json_file)
+
+@eel.expose
+def insert_to_package_list(obj: dict):
+    data = get_project_package()
+    for i in range(len(data)+1):
+        if not data.get(str(i)):
+            data[str(i)] = {
+                "name": obj["name"],
+                "command": [cmd.strip() for cmd in obj["command"].split(",")],
+                "targets": [target.strip() for target in obj["targets"].split(",")]
+            }
+    save_to_json(package_path, data)
+
+@eel.expose
+def create_project(copy_path: str, project_name: str, project_package_dc: Dict["str", List[str]]={}):
+    parject_path = Path(Path.cwd(), project_name)
+    shutil.copytree(Path(copy_path), parject_path)
+    os.chdir(parject_path)
+
+    req = ""
+
+    if project_package_dc:
+        if project_package_dc.get("freeze requirements"):
+            req = project_package_dc["create venv"][0]
+
+        if project_package_dc.get("create venv"):
+            for cmd in project_package_dc["create venv"]:
+                os.system(cmd)
+
+            os.chdir(Path(parject_path, "venv", "Scripts"))
+
+            os.system("activate")
+            os.chdir(parject_path)
+
+            del project_package_dc["create venv"]
+
+        for package_name, cmd_ls in project_package_dc.items():
+            for cmd in cmd_ls:
+                os.system(cmd)
+
+    if req:
+        os.system(req)
+    os.system("git init && git add . && git commit -m \"start project\"")
+    os.chdir(root_directory)
+
+    return f"{project_name} 建立完成"
+
+@eel.expose
+def get_project_package():
+    with open(package_path, "r", encoding="utf-8") as json_file:
+        data = json.load(json_file)
+
+    return data
+
+@eel.expose
+def get_project_options():
+    result_ls = []
+
+    for mode_path in Path("mode").iterdir():
+        if mode_path.is_dir():
+            for project_path in mode_path.iterdir():
+                dc = {
+                    "language": mode_path.name,
+                    "name": project_path.name,
+                    "path": str(project_path),
+                }
+                result_ls.append(dc)
+    
+    return result_ls
+
+@eel.expose
+def show_window(html: str, port: int = 0, size: tuple = (800, 600)) -> None:
     try:
-        num = eval(input(txt))
-    except:
-        print('Input number plz.')
-        return None
+        eel.start(f"{html}.html", size=size, port=port)
 
-    return Path('mode').joinpath(file_ls[num-1])
+    except (SystemExit, MemoryError, KeyboardInterrupt):
+        pass
 
-def go_to_directory(directory, project_name):
-    directory = Path(directory).joinpath(project_name)
-    check_folder(directory)
-    os.chdir(directory)
-
-def get_today():
-    return datetime.now().strftime("%Y.%m.%d")
-
-def get_project_name():
-    return input('Insert Your Project Name: ')
-
-def check_folder(folder_path):
-    if not folder_path.exists():
-        Path.mkdir(folder_path, parents=True)
-
-def write_into_file(file, txt):
-    file = Path(file)
-    check_folder(file.parent)
-
-    if 'json' in file.name:
-        with open(file, 'w', encoding='utf8') as f:        
-            json.dump(txt, f)
-    else:
-        with open(file, 'w', encoding='utf8') as f:        
-            f.write(txt)
-
-def run_cmd(code):
-    try:
-        subprocess.call(code)
-    except:
-        print('run_cmd has some prombles.')
-
-def init_git():
-    subprocess.call(['git', 'init'])
-
-    subprocess.call(['git', 'add', '.'])
-
-    subprocess.call(['git', 'commit', '-m', '"開始專案"'])
-
-
-if __name__ == '__main__':
-# version 2.0.1
-    file = choose_file()
-
-    if file:        
-        with open(file, "r", encoding='utf8') as stream:
-            data = yaml.load(stream, Loader=yaml.FullLoader)
-
-        project_name =  get_project_name()
-        
-        directory = data.get('directory', Path.cwd())
-        go_to_directory(directory, project_name)
-
-        for k in data.get('create_file', []):
-            content = k['content']
-            if 'get_today' in content:
-                content = content.replace('get_today', get_today())
-            try:
-                write_into_file(k['name'], content)
-            except Exception as e:
-                print(e)
-
-        if data.get('cmd', ''):
-            code_line = data.get('cmd', '').split('\n')
-
-            for code in code_line:
-                run_cmd(code.split())
-                
-        if data.get('git', '') and data['git'] == 1:
-            init_git()
+if __name__ == "__main__":
+    show_window("main", size=(400, 500))

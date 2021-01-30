@@ -21,10 +21,11 @@ let vm = new Vue({
         createProject: async function(projectName, projectId) {
             if (projectName && projectId!=null){
                 const copyPath = data.projectOptions[projectId].path;
-                const projectPackage = [];
+                const projectPackage = {};
                 data.projrctSelectedPackageIndex.forEach(index => {
-                    projectPackage.push(data.projectPackage[index]);
+                    projectPackage[data.projectPackage[index].name] = data.projectPackage[index].command;
                 });
+                c(projectPackage)
                 result = await eel.create_project(copyPath, projectName, projectPackage)();
                 data.msg = result;
 
