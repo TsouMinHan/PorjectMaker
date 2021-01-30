@@ -3,7 +3,7 @@
 
 
 輸入專案名稱，會顯示選項（可自行新增），勾選後即可建立專案。
-![demo1](.\img\demo1.gif)
+![demo1](./img/demo1.gif)
 
 點擊package list按鈕後進入編輯packag畫面，可新增、刪除、修改名稱、指令、目標專案。
 
@@ -12,4 +12,4 @@
 `command`：輸入command指令，若超過兩行時請以`,`做間隔。
 
 `targets`：針對指定專案進行顯示，例如`Python`代表所有Python專案都可選擇，`eel`則代表僅有eel專案才可選擇，若超過兩個時請以`,`做間隔。
-![demo2](.\img\demo2.gif)
+![demo2](./img/demo2.gif)
