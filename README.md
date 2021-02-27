@@ -5,7 +5,7 @@
 輸入專案名稱，會顯示選項（可自行新增），勾選後即可建立專案。
 
 
-![demo1](./img/demo1.gif)
+![demo](./img/demo.gif)
 
 點擊package list按鈕後進入編輯packag畫面，可新增、刪除、修改名稱、指令、目標專案。
 
