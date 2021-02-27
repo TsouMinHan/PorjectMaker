@@ -25,7 +25,7 @@ let vm = new Vue({
                 data.projrctSelectedPackageIndex.forEach(index => {
                     projectPackage[data.projectPackage[index].name] = data.projectPackage[index].command;
                 });
-                c(projectPackage)
+
                 result = await eel.create_project(copyPath, projectName, projectPackage)();
                 data.msg = result;
 

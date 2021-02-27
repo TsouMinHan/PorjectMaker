@@ -1,9 +1,9 @@
 from pathlib import Path
+from typing import Dict, List
 import eel
 import shutil
 import json
 import os
-from typing import Dict, List
 
 eel.init("web")
 root_directory = Path.cwd()
@@ -39,7 +39,7 @@ def insert_to_package_list(obj: dict):
 
 @eel.expose
 def create_project(copy_path: str, project_name: str, project_package_dc: Dict["str", List[str]]={}):
-    parject_path = Path(Path.cwd(), project_name)
+    parject_path = Path(Path.cwd().parent, project_name)
     shutil.copytree(Path(copy_path), parject_path)
     os.chdir(parject_path)
 
@@ -47,25 +47,22 @@ def create_project(copy_path: str, project_name: str, project_package_dc: Dict["
 
     if project_package_dc:
         if project_package_dc.get("freeze requirements"):
-            req = project_package_dc["create venv"][0]
+            req = project_package_dc["freeze requirements"][0]
+            del project_package_dc["freeze requirements"]
 
         if project_package_dc.get("create venv"):
             for cmd in project_package_dc["create venv"]:
                 os.system(cmd)
 
-            os.chdir(Path(parject_path, "venv", "Scripts"))
-
-            os.system("activate")
-            os.chdir(parject_path)
-
             del project_package_dc["create venv"]
 
         for package_name, cmd_ls in project_package_dc.items():
             for cmd in cmd_ls:
-                os.system(cmd)
+                os.system(f"cd {str(Path(parject_path, 'venv', 'Scripts'))} & activate & {cmd}")
 
     if req:
-        os.system(req)
+        os.system(f"cd {str(Path(parject_path, 'venv', 'Scripts'))} & activate & cd.. & cd.. & {req}")
+
     os.system("git init && git add . && git commit -m \"start project\"")
     os.chdir(root_directory)
 
